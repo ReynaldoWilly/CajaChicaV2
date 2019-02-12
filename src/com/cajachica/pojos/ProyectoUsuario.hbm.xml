@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 3, 2019 10:43:40 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cajachica.pojos.ProyectoUsuario" table="proyecto_usuario" catalog="cajachica" optimistic-lock="version">
+        <id name="idProyectoUsuario" type="java.lang.Integer">
+            <column name="idProyectoUsuario" />
+            <generator class="identity" />
+        </id>
+        <property name="idUsuario" type="int">
+            <column name="idUsuario" not-null="true" />
+        </property>
+        <property name="idProyecto" type="int">
+            <column name="idProyecto" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

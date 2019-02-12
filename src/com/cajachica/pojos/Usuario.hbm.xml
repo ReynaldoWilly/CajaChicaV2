@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 3, 2019 10:43:40 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cajachica.pojos.Usuario" table="usuario" catalog="cajachica" optimistic-lock="version">
+        <id name="idUsuario" type="java.lang.Integer">
+            <column name="idUsuario" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="apellido" length="45" not-null="true" />
+        </property>
+        <property name="celular" type="int">
+            <column name="celular" not-null="true" />
+        </property>
+        <property name="cargo" type="string">
+            <column name="cargo" length="25" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="25" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="30" not-null="true" />
+        </property>
+        <property name="tipoUsuario" type="int">
+            <column name="tipoUsuario" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

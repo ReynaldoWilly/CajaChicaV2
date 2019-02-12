@@ -6,7 +6,14 @@
 
 package com.cajachica.view;
 
+import com.cajachica.dao.UsuarioDao;
+import com.cajachica.pojos.Usuario;
 import com.sun.awt.AWTUtilities;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.edisoncor.gui.panel.PanelLlamada;
 
 /**
  *
@@ -17,6 +24,8 @@ public class vtnLogin extends javax.swing.JFrame {
     /**
      * Creates new form vtnLogin
      */
+    public  static Usuario user;//objeto que contiene los datos el usuario que inicia sesion en el sistema
+    
     public vtnLogin() {
         initComponents();
         this.setResizable(false);
@@ -33,13 +42,13 @@ public class vtnLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelRectTranslucidoComplete1 = new org.edisoncor.gui.panel.PanelRectTranslucidoComplete();
+        panelL = new org.edisoncor.gui.panel.PanelRectTranslucidoComplete();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtUser = new javax.swing.JTextField();
+        txtPass = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -61,11 +70,16 @@ public class vtnLogin extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Usuario:");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        txtUser.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
 
-        jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        txtPass.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
 
         jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -74,55 +88,55 @@ public class vtnLogin extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout panelRectTranslucidoComplete1Layout = new javax.swing.GroupLayout(panelRectTranslucidoComplete1);
-        panelRectTranslucidoComplete1.setLayout(panelRectTranslucidoComplete1Layout);
-        panelRectTranslucidoComplete1Layout.setHorizontalGroup(
-            panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelLLayout = new javax.swing.GroupLayout(panelL);
+        panelL.setLayout(panelLLayout);
+        panelLLayout.setHorizontalGroup(
+            panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGroup(panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+                .addGroup(panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLLayout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jLabel2))
-                    .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+                    .addGroup(panelLLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+                        .addGroup(panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelLLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPasswordField1))
-                            .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+                                .addComponent(txtPass))
+                            .addGroup(panelLLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+                                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelLLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addGap(30, 30, 30)
                         .addComponent(jButton2)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
-        panelRectTranslucidoComplete1Layout.setVerticalGroup(
-            panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
-                .addGroup(panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+        panelLLayout.setVerticalGroup(
+            panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLLayout.createSequentialGroup()
+                .addGroup(panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(panelRectTranslucidoComplete1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(panelLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2)))
-                    .addGroup(panelRectTranslucidoComplete1Layout.createSequentialGroup()
+                    .addGroup(panelLLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)))
                 .addContainerGap(25, Short.MAX_VALUE))
@@ -133,13 +147,13 @@ public class vtnLogin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelRectTranslucidoComplete1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelRectTranslucidoComplete1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -150,6 +164,32 @@ public class vtnLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+        UsuarioDao userDao= new UsuarioDao();
+       
+        try 
+        {
+            user=userDao.buscarUsuario(txtUser.getText(),txtPass.getText());
+            
+            if(user!=null)
+            {
+             Principal principal = new Principal();
+             this.hide();
+             principal.setVisible(true);
+             principal.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos",null,JOptionPane.ERROR_MESSAGE);
+        }
+        
+        } catch (Exception ex) {
+            Logger.getLogger(vtnLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,8 +233,8 @@ public class vtnLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private org.edisoncor.gui.panel.PanelRectTranslucidoComplete panelRectTranslucidoComplete1;
+    private org.edisoncor.gui.panel.PanelRectTranslucidoComplete panelL;
+    private javax.swing.JPasswordField txtPass;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
