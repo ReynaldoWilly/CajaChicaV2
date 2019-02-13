@@ -16,6 +16,13 @@ public class Proyecto  implements java.io.Serializable {
     public Proyecto() {
     }
 
+    public Proyecto(Integer idProyecto, String nombreProyecto, String descripcion) {
+        this.idProyecto = idProyecto;
+        this.nombreProyecto = nombreProyecto;
+        this.descripcion = descripcion;
+    }
+    
+
     public Proyecto(String nombreProyecto, String descripcion) {
        this.nombreProyecto = nombreProyecto;
        this.descripcion = descripcion;

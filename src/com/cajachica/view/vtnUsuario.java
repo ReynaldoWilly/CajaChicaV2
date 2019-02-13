@@ -498,7 +498,8 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
 
                         Usuario user = new Usuario(txtNomUsr.getText(), txtApeUsr.getText(), Integer.parseInt(txtCelUsr.getText()), txtCargoUsr.getText(), txtEmailUsr.getText(), txtPassUsr.getText(), comboTUrs.getSelectedIndex());
                         UsuarioDao userDao = new UsuarioDao();
-                        if (userDao.registarUsuario(user)) {
+                        if (userDao.registarUsuario(user)) 
+                        {
                             JOptionPane.showMessageDialog(this, "Registro de usuario correcto..!!", null, JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             bloquearCamposFormulario();
@@ -557,7 +558,6 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCelUsrKeyTyped
 
     private void btnHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabilitarActionPerformed
-        // TODO add your handling code here:
         // TODO add your handling code here:
         if (btnHabilitar.isSelected()) {
             activarCamposFormulario();
@@ -628,7 +628,8 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
             validar.add(txtPassUsr.getText());
             validar.add(txtPassUsr2.getText());
 
-            if (new Validaciones().validarCampos(validar)) {
+            if (new Validaciones().validarCampos(validar)) 
+            {
                 if (comboTUrs.getSelectedIndex() != 0) {
                     if (txtPassUsr.getText().equals(txtPassUsr2.getText())) {
 
