@@ -14,5 +14,16 @@
         <property name="descripcion" type="string">
             <column name="descripcion" length="100" not-null="true" />
         </property>
+        
+        <!-- INICIO DE LA REALCION DE N:M CON LA TABLA USUARIO
+        
+        <set name="usuarios" table="proyecto_usuario" cascade="all" inverse="false">
+            <key>
+                <column name="idProyecto"/>
+            </key>
+            <many-to-many column="idUsuario" class="com.cajachica.pojos.Usuario"/>
+        </set>-->
+        
+        <!-- FIN DE LA RELACION -->
     </class>
 </hibernate-mapping>

@@ -26,8 +26,9 @@ public class Principal extends javax.swing.JFrame {
         LabelUsuario.setText(userlogin.getNombre() + " " + userlogin.getApellido());
         labelCargo.setText(userlogin.getCargo());
         //verificando el rol del usuario logueado  ADMINISTRADOR=1 ASISTENTE=2
+
         if (userlogin.getTipoUsuario() == 2) {
-          iniciarRolusuarioAsistente();
+            iniciarRolusuarioAsistente();
         }
     }
 
@@ -35,6 +36,7 @@ public class Principal extends javax.swing.JFrame {
     public void iniciarRolusuarioAsistente() {
         itemvtnRegProyecto.setEnabled(false);
         itemvtnRegUsuario.setEnabled(false);
+        itemUsertoProyect.setEnabled(false);
     }
 
     /**
@@ -63,7 +65,7 @@ public class Principal extends javax.swing.JFrame {
         itemvtnRegUsuario = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         itemvtnRegProyecto = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        itemUsertoProyect = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -119,7 +121,7 @@ public class Principal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -178,11 +180,21 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu5.add(itemvtnRegProyecto);
 
-        jMenuItem1.setText("Adicionar usuario a proyecto");
-        jMenu5.add(jMenuItem1);
+        itemUsertoProyect.setText("Adicionar usuario a proyecto");
+        itemUsertoProyect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemUsertoProyectActionPerformed(evt);
+            }
+        });
+        jMenu5.add(itemUsertoProyect);
         jMenu5.add(jSeparator1);
 
         jMenuItem2.setText("Ingresar presupuesto ");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem2);
 
         jMenuBar1.add(jMenu5);
@@ -259,6 +271,45 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_itemvtnRegUsuarioActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        String varValidacion = vtnPresupuesto.validaVentana;
+        if (varValidacion == null) {
+
+            vtnPresupuesto pre = new vtnPresupuesto();
+            pre.setTitle("Ingreso de presuouesto");
+            pre.setResizable(false);//no es redimencionable
+            pre.setMaximizable(false);//no se puede maximizar
+            pre.setClosable(true);//si se puede cerra la ventana
+            pre.setIconifiable(true);
+            sysMDI.add(pre);
+            pre.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "La ventana ingreso de presupuesto ya esta activa\nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void itemUsertoProyectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsertoProyectActionPerformed
+        // TODO add your handling code here:
+        String varValidacion = vtnAddUser.validaVentana;
+        if (varValidacion == null)
+        {
+            vtnAddUser pre = new vtnAddUser();
+            pre.setTitle("Adición usuario a proyecto");
+            pre.setResizable(false);//no es redimencionable
+            pre.setMaximizable(false);//no se puede maximizar
+            pre.setClosable(true);//si se puede cerra la ventana
+            pre.setIconifiable(true);
+            sysMDI.add(pre);
+            pre.setVisible(true);
+        }
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "La ventana adicion de usuario ya esta activa\nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_itemUsertoProyectActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -296,6 +347,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelUsuario;
+    private javax.swing.JMenuItem itemUsertoProyect;
     private javax.swing.JMenuItem itemvtnRegProyecto;
     private javax.swing.JMenuItem itemvtnRegUsuario;
     private javax.swing.JLabel jLabel1;
@@ -310,7 +362,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

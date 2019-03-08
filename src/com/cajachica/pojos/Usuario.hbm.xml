@@ -29,5 +29,18 @@
         <property name="tipoUsuario" type="int">
             <column name="tipoUsuario" not-null="true" />
         </property>
+       
+       
+        <!-- RELACION CON LA TABLA PROYECTO
+               
+        <list name="proyectos" table="proyecto_usuario" cascade="all" inverse="true">
+            <key>
+                <column name="idUsuario"></column>
+            </key>
+            <many-to-many column="idProyecto" class="com.cajachica.pojos.Proyecto"></many-to-many>
+        </list>-->
+        
+        <!-- FIN DE LA RELACION N;M-->
+        
     </class>
 </hibernate-mapping>

@@ -498,8 +498,7 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
 
                         Usuario user = new Usuario(txtNomUsr.getText(), txtApeUsr.getText(), Integer.parseInt(txtCelUsr.getText()), txtCargoUsr.getText(), txtEmailUsr.getText(), txtPassUsr.getText(), comboTUrs.getSelectedIndex());
                         UsuarioDao userDao = new UsuarioDao();
-                        if (userDao.registarUsuario(user)) 
-                        {
+                        if (userDao.registarUsuario(user)) {
                             JOptionPane.showMessageDialog(this, "Registro de usuario correcto..!!", null, JOptionPane.INFORMATION_MESSAGE);
                             limpiarCampos();
                             bloquearCamposFormulario();
@@ -530,28 +529,38 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
             util.limpiarTabla(tablaUsuarios);
             //realizando la consulta para realizar el listado de los datos
             UsuarioDao almDao = new UsuarioDao();
-            List<Usuario> lista = almDao.listarUsuario();
-            Object[] fila = new Object[modelo.getColumnCount()];
-            for (int i = 0; i < lista.size(); i++) {
-                fila[0] = lista.get(i).getIdUsuario();
-                fila[1] = lista.get(i).getNombre();
-                fila[2] = lista.get(i).getApellido();
-                fila[3] = lista.get(i).getCelular();
-                fila[4] = lista.get(i).getCargo();
-                fila[5] = lista.get(i).getEmail();
-                if (lista.get(i).getTipoUsuario() == 1) {
-                    fila[6] = "Administrador";
-                } else {
-                    fila[6] = "Asistente";
-                }
-                fila[7] = lista.get(i).getPassword();
+            List<Object[]> lista = almDao.listarUsuario();
+            if (lista.size() > 0) 
+            {
+                Object[] fila = new Object[modelo.getColumnCount()];
 
-                modelo.addRow(fila);
+                for (int i = 0; i < lista.size(); i++) 
+                {
+                    fila[0] = lista.get(i)[0];//id
+                    fila[1] = lista.get(i)[1];//nombre
+                    fila[2] = lista.get(i)[2];//apellido;
+                    fila[3] = lista.get(i)[3];//celular
+                    fila[4] = lista.get(i)[4];//cargo;
+                    fila[5] = lista.get(i)[5];//email
+
+                    if (Integer.parseInt((lista.get(i)[6]).toString()) == 1)//tipo de usuario
+                    {
+                        fila[6] = "Administrador";
+                    } 
+                    else {
+                        fila[6] = "Asistente";
+                    }
+                    fila[7] = lista.get(i)[7];//email
+
+                    modelo.addRow(fila);
+                }
             }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error " + e, null, JOptionPane.ERROR_MESSAGE);
         }
     }
+
     private void txtCelUsrKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelUsrKeyTyped
         // TODO add your handling code here:
         new Validaciones().validaNumeros(txtCelUsr);
@@ -628,8 +637,7 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
             validar.add(txtPassUsr.getText());
             validar.add(txtPassUsr2.getText());
 
-            if (new Validaciones().validarCampos(validar)) 
-            {
+            if (new Validaciones().validarCampos(validar)) {
                 if (comboTUrs.getSelectedIndex() != 0) {
                     if (txtPassUsr.getText().equals(txtPassUsr2.getText())) {
 
@@ -663,11 +671,9 @@ public class vtnUsuario extends javax.swing.JInternalFrame {
         try {
             if (!txtNomUsr.getText().equals("")) {
                 int y = JOptionPane.showConfirmDialog(null, "Esta seguro de eliminar el registro?");
-                if (y == JOptionPane.YES_OPTION) 
-                {
+                if (y == JOptionPane.YES_OPTION) {
                     UsuarioDao userDao = new UsuarioDao();
-                    if (userDao.eliminarUsuario(this.getObjetoUsuario())) 
-                    {
+                    if (userDao.eliminarUsuario(this.getObjetoUsuario())) {
                         JOptionPane.showMessageDialog(this, "Eliminacion correcta", "Mensaje..!!", JOptionPane.INFORMATION_MESSAGE);
                         limpiarCampos();
                         bloquearCamposFormulario();
