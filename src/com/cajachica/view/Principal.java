@@ -20,7 +20,8 @@ public class Principal extends javax.swing.JFrame {
     //obejeto que contiene los datos del usuario logueado 
     public static Usuario userlogin;
 
-    public Principal() {
+    public Principal() 
+    {
         initComponents();
         userlogin = vtnLogin.user;//recibiendo el objeto usuario  de la ventana de logueqo
         LabelUsuario.setText(userlogin.getNombre() + " " + userlogin.getApellido());
@@ -71,6 +72,8 @@ public class Principal extends javax.swing.JFrame {
         jMenu7 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -149,7 +152,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(sysMDILayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(932, Short.MAX_VALUE))
+                .addContainerGap(916, Short.MAX_VALUE))
         );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/file.png"))); // NOI18N
@@ -210,6 +213,19 @@ public class Principal extends javax.swing.JFrame {
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/reportes.png"))); // NOI18N
         jMenu8.setText("Reportes");
         jMenuBar1.add(jMenu8);
+
+        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/ajustes.png"))); // NOI18N
+        jMenu9.setText("Ajustes");
+
+        jMenuItem1.setText("Configuración");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu9);
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/info.png"))); // NOI18N
         jMenu2.setText("Acerca de");
@@ -310,6 +326,27 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_itemUsertoProyectActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        String varValidacion = vtnParametros.validaVentana;
+        if (varValidacion == null)
+        {
+            vtnParametros pre = new vtnParametros();
+            pre.setTitle("Configuración de sistema");
+            pre.setResizable(false);//no es redimencionable
+            pre.setMaximizable(false);//no se puede maximizar
+            pre.setClosable(true);//si se puede cerra la ventana
+            pre.setIconifiable(true);
+            sysMDI.add(pre);
+            pre.setVisible(true);
+        }
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "La ventana configuración \nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -360,8 +397,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

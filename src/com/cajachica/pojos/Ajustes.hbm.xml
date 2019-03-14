@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class name="com.cajachica.pojos.Ajustes" table="Ajustes" catalog="cajachica">
+        <id name="idAjustes" type="java.lang.Integer">
+            <column name="idAjustes" />
+            <generator class="identity" />
+        </id>
+        <property name="razonsocial" type="string">
+            <column name="razonsocial" length="45" />
+        </property>
+        <property name="nit" type="string">
+            <column name="nit" length="45" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="45" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+        <property name="logo" type="binary">
+            <column name="logo"/>
+        </property>
+        <property name="web" type="string">
+            <column name="web" length="45" />
+        </property>
+</class>
+</hibernate-mapping>

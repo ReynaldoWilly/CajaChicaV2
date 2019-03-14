@@ -52,5 +52,6 @@ Contributor(s):
     <mapping resource="com/cajachica/pojos/Usuario.hbm.xml"/>
     <mapping resource="com/cajachica/pojos/Factura.hbm.xml"/>
     <mapping resource="com/cajachica/pojos/Proyecto.hbm.xml"/>
+    <mapping resource="com/cajachica/pojos/Ajustes.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

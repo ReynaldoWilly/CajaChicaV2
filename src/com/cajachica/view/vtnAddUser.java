@@ -104,7 +104,8 @@ public class vtnAddUser extends javax.swing.JInternalFrame {
 
     //Metodo que realiza el listado de los usuarios asignados a los proyectos
     public void listarUsuariosAsignados() {
-        try {
+        try 
+        {
             DefaultTableModel modelo = (DefaultTableModel) this.tablaAsignacionUsuario.getModel();//creando el modelo de la tabla de los usuarios asignados
             Utilitarios util = new Utilitarios();
             util.limpiarTabla(tablaAsignacionUsuario);
