@@ -8,14 +8,24 @@ package com.cajachica.view;
 import com.cajachica.core.Utilitarios;
 import com.cajachica.dao.PresupuestoDao;
 import com.cajachica.pojos.Usuario;
+import com.mysql.jdbc.Connection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import util.Conexion;
 
 /**
  *
@@ -44,15 +54,12 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         // tipo de usuario 1= ADMINITRADOR DE SISTEMA
         //                 2= USUARIO GENERAL
         int tipoUsuario = userLogin.getTipoUsuario();
-        if (tipoUsuario == 2) 
-        {
+        if (tipoUsuario == 2) {
             pestañaModificaciones.setEnabled(false);
             cargarComboByRolUsuario(userLogin.getIdUsuario());
             listarPresupuestos();
 
-        } 
-        else 
-        {
+        } else {
             cargarCombo();
             listarPresupuestos();
         }
@@ -68,8 +75,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
 
     //Metodo que realiza la carga de los combos de los proyectos 
     public void cargarCombo() {
-        try 
-        {
+        try {
             PresupuestoDao pdao = new PresupuestoDao();
             ResultSet consulta = pdao.listarProyectos();
             comboProyecto.addItem("Seleccione un proyecto");
@@ -109,11 +115,9 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
             PresupuestoDao pDao = new PresupuestoDao();
             ResultSet lista = pDao.listarRegPresupuesto();//recuperando el listado de los usuarios asignados a los proyectos
             //rellenando los elementos de la consulta en el Jtable
-            Object[] fila = new Object[7];
-            while (lista.next())
-            {
-                for (int i = 0; i < 7; i++)
-                {
+            Object[] fila = new Object[8];
+            while (lista.next()) {
+                for (int i = 0; i < 8; i++) {
                     fila[i] = lista.getObject(i + 1);
                 }
                 modelo.addRow(fila);
@@ -147,6 +151,27 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         }
     }
 
+    public void levantarReporte() throws Exception {
+        //   JasperPrint jasperprint= JasperFillManager.fillReport(new File(".").getAbsolutePath()+"" , parameters)
+        Connection conex = (Connection) Conexion.getConectar();
+        //JOptionPane.showMessageDialog(null, "--->" + new PresupuestoDao().ultimoRegistroPresupuesto(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
+
+        try 
+        {
+                int idPresupuesto = new PresupuestoDao().ultimoRegistroPresupuesto();
+
+                Map parametro = new HashMap();
+                parametro.put("IdPresupuesto", idPresupuesto);//parametro numero de compra
+               
+                JasperPrint jasperprint = JasperFillManager.fillReport(new File(".").getAbsolutePath() + "/src/com/cajachica/reportes/ReciboCajaChica.jasper", parametro, conex);
+                JasperViewer jasperviewer = new JasperViewer(jasperprint,false);
+                jasperviewer.setVisible(true);
+          
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al abrir el reporte Reembolso de caja chica" + ex.getMessage(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,6 +195,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         comboproyectotabla = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -179,6 +205,9 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtFinanciador = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtObs = new javax.swing.JTextArea();
 
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -249,17 +278,17 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
 
         tablaMontoProyecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Monto", "Fecha Ingreso", "Proyecto", "Financiador", "Responsable", "Apellido"
+                "ID", "Monto", "Fecha Ingreso", "Proyecto", "Financiador", "Responsable", "Apellido Resp.", "Observaciones"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -270,6 +299,15 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         if (tablaMontoProyecto.getColumnModel().getColumnCount() > 0) {
             tablaMontoProyecto.getColumnModel().getColumn(0).setMinWidth(50);
             tablaMontoProyecto.getColumnModel().getColumn(0).setMaxWidth(50);
+            tablaMontoProyecto.getColumnModel().getColumn(1).setMinWidth(60);
+            tablaMontoProyecto.getColumnModel().getColumn(1).setPreferredWidth(60);
+            tablaMontoProyecto.getColumnModel().getColumn(1).setMaxWidth(60);
+            tablaMontoProyecto.getColumnModel().getColumn(5).setMinWidth(90);
+            tablaMontoProyecto.getColumnModel().getColumn(5).setPreferredWidth(90);
+            tablaMontoProyecto.getColumnModel().getColumn(5).setMaxWidth(90);
+            tablaMontoProyecto.getColumnModel().getColumn(6).setMinWidth(100);
+            tablaMontoProyecto.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tablaMontoProyecto.getColumnModel().getColumn(6).setMaxWidth(100);
         }
 
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
@@ -281,6 +319,15 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/print.png"))); // NOI18N
+        jButton5.setText("Imprimir recibo");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -296,11 +343,13 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboproyectotabla, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton3)
+                        .addGap(0, 361, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton5))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,7 +360,9 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                     .addComponent(comboproyectotabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -351,7 +402,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(88, 88, 88)
@@ -395,9 +446,9 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(68, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(48, 48, 48)
+                .addGap(29, 29, 29)
                 .addComponent(jButton2)
                 .addGap(61, 61, 61))
         );
@@ -412,7 +463,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         );
 
         jLabel6.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
-        jLabel6.setText("Financiamiento:");
+        jLabel6.setText("Fuente de financiamiento:");
 
         txtFinanciador.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         txtFinanciador.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -421,19 +472,27 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
+        jLabel7.setText("Observaciones:");
+
+        txtObs.setColumns(20);
+        txtObs.setRows(5);
+        jScrollPane3.setViewportView(txtObs);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -445,10 +504,13 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(18, 18, 18)
-                .addComponent(pestañaModificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(comboProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(28, 28, 28)
+                .addComponent(pestañaModificaciones)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,7 +519,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pestañaModificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pestañaModificaciones))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -471,9 +533,17 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(txtFinanciador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7)
+                                .addGap(66, 66, 66))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -512,13 +582,14 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                 Double monto = Double.parseDouble(txtMonto.getText());
                 if (monto > 0) {
                     if (txtFinanciador.getText().length() > 0) {
-                        if (pdao.adicionarPresupuesto(txtMonto.getText(), idProyecto, txtFinanciador.getText(), userLogin.getIdUsuario()));
+                        if (pdao.adicionarPresupuesto(txtMonto.getText(), idProyecto, txtFinanciador.getText(),txtObs.getText(), userLogin.getIdUsuario()));
                         {
                             JOptionPane.showMessageDialog(null, " Monto registrado correctamente..!!", null, JOptionPane.INFORMATION_MESSAGE);
                             txtMonto.setText("0.0");
                             txtFinanciador.setText("");
                             comboProyecto.setSelectedIndex(0);
                             listarPresupuestos();
+                            levantarReporte();
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, " Ingrese el financiador..!!", null, JOptionPane.ERROR_MESSAGE);
@@ -562,6 +633,40 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        //   JasperPrint jasperprint= JasperFillManager.fillReport(new File(".").getAbsolutePath()+"" , parameters)
+        Connection conex = (Connection) Conexion.getConectar();
+        try 
+        {
+            if (tablaMontoProyecto.getSelectedRows().length != 0) {
+                DefaultTableModel tm = (DefaultTableModel) tablaMontoProyecto.getModel();
+                int idPresupuesto = Integer.parseInt(String.valueOf(tm.getValueAt(tablaMontoProyecto.getSelectedRow(), 0)));
+
+                Map parametro = new HashMap();
+                parametro.put("IdPresupuesto", idPresupuesto);//parametro numero de compra
+                //parametro.put("responsable_compra", "Reynaldo Rios");//Parametro responsable de la compra
+                //parametro.put("monto_literal", LBLiteralListaCompra.getText());//Parametro monto literal
+
+                JasperPrint jasperprint = JasperFillManager.fillReport(new File(".").getAbsolutePath() + "/src/com/cajachica/reportes/ReciboCajaChica.jasper", parametro, conex);
+                JasperViewer jasperviewer = new JasperViewer(jasperprint,false);
+                jasperviewer.setVisible(true);
+
+                /*String rutaReporte = System.getProperty("user.dir") + "/src/reportes/ReciboCajaChica.jasper";
+                JasperReport jasperReport = (JasperReport) JRLoader.loadObject(rutaReporte);
+                JasperPrint print = JasperFillManager.fillReport(jasperReport, parametro, conex);
+                JasperViewer view = new JasperViewer(print, false);
+                //vtnPrincipal.sysMDI.add(view);
+                view.setVisible(true);*/
+            } else {
+                JOptionPane.showMessageDialog(this, "Seleccione un elemento de la tabla..!!");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al abrir el reporte Reembolso de caja chica" + ex.getMessage(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboProyecto;
@@ -570,22 +675,26 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane pestañaModificaciones;
     private javax.swing.JTable tablaMontoProyecto;
     private javax.swing.JTextField txtFinanciador;
     private javax.swing.JTextField txtMonto;
+    private javax.swing.JTextArea txtObs;
     // End of variables declaration//GEN-END:variables
 }
