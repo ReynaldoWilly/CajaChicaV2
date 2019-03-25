@@ -88,7 +88,7 @@ public class PresupuestoDao {
     //metodo que realiza el listado de los presupuestos por nombre de presupuesto
     public ResultSet listPresupuestoByNombre(String nombreProyecto) throws Exception {
         Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
-        String sql = "Select P.idpresupuesto, P.monto, P.fechaReg, Pr.nombreProyecto,P.nombrefinanciador,U.nombre,U.apellido \n"
+        String sql = "Select P.idpresupuesto, P.monto, P.fechaReg, Pr.nombreProyecto,P.nombrefinanciador,U.nombre,U.apellido,P.observaciones \n"
                 + "from presupuesto AS P, proyecto as Pr, usuario as U\n"
                 + "where Pr.idProyecto=P.idProyecto and U.idUsuario=P.idUsuario and Pr.nombreProyecto=?";//cadena para la consulta s
         PreparedStatement stm = con.prepareStatement(sql);

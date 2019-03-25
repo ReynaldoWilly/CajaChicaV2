@@ -206,6 +206,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu7.setText("Registro caja");
 
         jMenuItem4.setText("Cargar factura");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem4);
 
         jMenuBar1.add(jMenu7);
@@ -346,6 +351,26 @@ public class Principal extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+       String varValidacion = vtnCargarFactura.validaVentana;
+        if (varValidacion == null)
+        {
+            vtnCargarFactura pre = new vtnCargarFactura();
+            pre.setTitle("Cargar factura");
+            pre.setResizable(false);//no es redimencionable
+            pre.setMaximizable(false);//no se puede maximizar
+            pre.setClosable(true);//si se puede cerra la ventana
+            pre.setIconifiable(true);
+            sysMDI.add(pre);
+            pre.setVisible(true);
+        }
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "La ventana cargar factura ya esta activa\nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

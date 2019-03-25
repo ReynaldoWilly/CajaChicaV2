@@ -6,6 +6,7 @@
 package com.cajachica.view;
 
 import com.cajachica.core.Utilitarios;
+import com.cajachica.dao.MontosTotalesDao;
 import com.cajachica.dao.PresupuestoDao;
 import com.cajachica.pojos.Usuario;
 import com.mysql.jdbc.Connection;
@@ -50,7 +51,8 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         //Recuperando el usuario logueado
         userLogin = vtnLogin.user;
         //JOptionPane.showMessageDialog(null, "--> " + userLogin.getNombre(), null, JOptionPane.ERROR_MESSAGE);
-        //instruciones para carga de datos de roles de usuario
+
+//instruciones para carga de datos de roles de usuario
         // tipo de usuario 1= ADMINITRADOR DE SISTEMA
         //                 2= USUARIO GENERAL
         int tipoUsuario = userLogin.getTipoUsuario();
@@ -63,6 +65,18 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
             cargarCombo();
             listarPresupuestos();
         }
+
+        //prueba verificacion de registro de monto existente 
+        /*MontosTotalesDao mdao = new MontosTotalesDao();
+        if (mdao.verTablaVacia(1)) 
+        {
+            JOptionPane.showMessageDialog(null, "-->TABLA VACIA " + userLogin.getNombre(), null, JOptionPane.ERROR_MESSAGE);
+        } 
+        else 
+        {
+            JOptionPane.showMessageDialog(null, "-->TABLA CON REGISTROS " + userLogin.getNombre(), null, JOptionPane.ERROR_MESSAGE);
+        }*/
+        //fin prueba
     }
 
     public static Usuario getUserLogin() {
@@ -138,9 +152,9 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
             PresupuestoDao pDao = new PresupuestoDao();
             ResultSet lista = pDao.listPresupuestoByNombre(nombreProyecto);//recuperando el listado de los usuarios asignados a los proyectos
             //rellenando los elementos de la consulta en el Jtable
-            Object[] fila = new Object[6];
+            Object[] fila = new Object[8];
             while (lista.next()) {
-                for (int i = 0; i < 6; i++) {
+                for (int i = 0; i < 8; i++) {
                     fila[i] = lista.getObject(i + 1);
                 }
                 modelo.addRow(fila);
@@ -156,20 +170,33 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         Connection conex = (Connection) Conexion.getConectar();
         //JOptionPane.showMessageDialog(null, "--->" + new PresupuestoDao().ultimoRegistroPresupuesto(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
 
-        try 
-        {
-                int idPresupuesto = new PresupuestoDao().ultimoRegistroPresupuesto();
+        try {
+            int idPresupuesto = new PresupuestoDao().ultimoRegistroPresupuesto();
 
-                Map parametro = new HashMap();
-                parametro.put("IdPresupuesto", idPresupuesto);//parametro numero de compra
-               
-                JasperPrint jasperprint = JasperFillManager.fillReport(new File(".").getAbsolutePath() + "/src/com/cajachica/reportes/ReciboCajaChica.jasper", parametro, conex);
-                JasperViewer jasperviewer = new JasperViewer(jasperprint,false);
-                jasperviewer.setVisible(true);
-          
+            Map parametro = new HashMap();
+            parametro.put("IdPresupuesto", idPresupuesto);//parametro numero de compra
+
+            JasperPrint jasperprint = JasperFillManager.fillReport(new File(".").getAbsolutePath() + "/src/com/cajachica/reportes/ReciboCajaChica.jasper", parametro, conex);
+            JasperViewer jasperviewer = new JasperViewer(jasperprint, false);
+            jasperviewer.setVisible(true);
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al abrir el reporte Reembolso de caja chica" + ex.getMessage(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    //Metodo que realiza la insercion o actualizacion del total de monto del priyecto
+    public void registrarMontoUpdate(int idProyecto, String monto) {
+        try {
+            MontosTotalesDao mdao = new MontosTotalesDao();
+
+            if (mdao.verTablaVacia(idProyecto)) {
+                mdao.registrarMontoIngreso(monto, idProyecto);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizaf los montos totales de ingreso del proyecto" + ex.getMessage(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     /**
@@ -556,7 +583,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtMontoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyTyped
@@ -575,18 +602,40 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+       String montoA=null;
+       int idMonto=0;
         try {
             if (comboProyecto.getSelectedIndex() > 0) {
                 PresupuestoDao pdao = new PresupuestoDao();
+                MontosTotalesDao mdao = new MontosTotalesDao();
                 int idProyecto = pdao.recuperarIdByNombre(String.valueOf(comboProyecto.getSelectedItem()));
                 Double monto = Double.parseDouble(txtMonto.getText());
                 if (monto > 0) {
                     if (txtFinanciador.getText().length() > 0) {
-                        if (pdao.adicionarPresupuesto(txtMonto.getText(), idProyecto, txtFinanciador.getText(),txtObs.getText(), userLogin.getIdUsuario()));
+                        if (pdao.adicionarPresupuesto(txtMonto.getText(), idProyecto, txtFinanciador.getText(), txtObs.getText(), userLogin.getIdUsuario()));
                         {
                             JOptionPane.showMessageDialog(null, " Monto registrado correctamente..!!", null, JOptionPane.INFORMATION_MESSAGE);
+
+                            if (mdao.verTablaVacia(idProyecto)) {
+                                mdao.registrarMontoIngreso(txtMonto.getText(), idProyecto);//relizando la aactualizacion de los montos totales de ingresos 
+                            } 
+                            else 
+                            {
+                                double montoS = Double.parseDouble(txtMonto.getText());//recuperando el nuevo monto a sumar 
+                                ResultSet consulta=mdao.recuperarMontoIngreso(idProyecto);
+                                if (consulta.next()) 
+                                {
+                                    montoA = consulta.getString(1);
+                                    idMonto = consulta.getInt(2);
+                                }
+                                
+                                double totalUpdate=Double.parseDouble(montoA)+montoS;
+                                mdao.updateIngresosTotales(String.valueOf(totalUpdate), idProyecto,idMonto);
+                                //JOptionPane.showMessageDialog(null, "Segundo ingreso MONTO RECUPERADO-->"+totalUpdate+"--"+montoA+"--"+idMonto, null, JOptionPane.ERROR_MESSAGE);
+                            }
                             txtMonto.setText("0.0");
                             txtFinanciador.setText("");
+                            txtObs.setText("");
                             comboProyecto.setSelectedIndex(0);
                             listarPresupuestos();
                             levantarReporte();
@@ -637,8 +686,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         //   JasperPrint jasperprint= JasperFillManager.fillReport(new File(".").getAbsolutePath()+"" , parameters)
         Connection conex = (Connection) Conexion.getConectar();
-        try 
-        {
+        try {
             if (tablaMontoProyecto.getSelectedRows().length != 0) {
                 DefaultTableModel tm = (DefaultTableModel) tablaMontoProyecto.getModel();
                 int idPresupuesto = Integer.parseInt(String.valueOf(tm.getValueAt(tablaMontoProyecto.getSelectedRow(), 0)));
@@ -649,7 +697,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                 //parametro.put("monto_literal", LBLiteralListaCompra.getText());//Parametro monto literal
 
                 JasperPrint jasperprint = JasperFillManager.fillReport(new File(".").getAbsolutePath() + "/src/com/cajachica/reportes/ReciboCajaChica.jasper", parametro, conex);
-                JasperViewer jasperviewer = new JasperViewer(jasperprint,false);
+                JasperViewer jasperviewer = new JasperViewer(jasperprint, false);
                 jasperviewer.setVisible(true);
 
                 /*String rutaReporte = System.getProperty("user.dir") + "/src/reportes/ReciboCajaChica.jasper";
