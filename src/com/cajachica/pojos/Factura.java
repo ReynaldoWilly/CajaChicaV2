@@ -17,8 +17,19 @@ public class Factura  implements java.io.Serializable {
      private float montoFactura;
      private Date fecha;
      private Date fechaCargaSistema;
+     private int idProyecto;
+     private int idUsuario;
 
-    public Factura() {
+    public Factura() 
+    {
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Factura(int nroFactura, String tipoDoc, String detalleFactura, float montoFactura, Date fecha, Date fechaCargaSistema) {
@@ -28,6 +39,14 @@ public class Factura  implements java.io.Serializable {
        this.montoFactura = montoFactura;
        this.fecha = fecha;
        this.fechaCargaSistema = fechaCargaSistema;
+    }
+
+    public int getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
    
     public Integer getIdFactura() {

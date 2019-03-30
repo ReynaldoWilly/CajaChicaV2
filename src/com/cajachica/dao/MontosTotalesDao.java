@@ -57,13 +57,15 @@ public class MontosTotalesDao {
     //Metodo que realiza la recupetracion del monto para la actualizacin del valor
     public ResultSet recuperarMontoIngreso(int idProyecto) {
         ResultSet consulta = null;
-        try {
+        try 
+        {
             Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
             String sql = "select totalIngresos,idMontos from montostotales where idProyecto=" + idProyecto;
             PreparedStatement stm = con.prepareStatement(sql);
             consulta = stm.executeQuery();
             return consulta;
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             JOptionPane.showMessageDialog(null, "Error al recuperar el monto total de los ingresos..!! " + ex.getMessage());
             return consulta;
         }
@@ -86,6 +88,24 @@ public class MontosTotalesDao {
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al registrar el monto total " + ex.getMessage());
+            return false;
+        }
+    }
+    
+    //metodo que actualiza el total de los egresos
+    public boolean updateEgresosTotales(String monto, int idProyecto, int idMonto) throws Exception {
+        Connection miConexion = (Connection) Conexion.getConectar();
+        try {
+            PreparedStatement statement = miConexion.prepareStatement("UPDATE montostotales SET totalEgresos=? WHERE idProyecto=? and idMontos=?");
+            statement.setString(1, monto);//monto ingreso a actualizar
+            statement.setInt(2, idProyecto);//idProyecto
+            statement.setInt(3, idMonto);//id tabala monto
+            statement.executeUpdate();
+            statement.close();
+            miConexion.close();
+            return true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el total de monto Ingreso.." + ex.getMessage());
             return false;
         }
     }

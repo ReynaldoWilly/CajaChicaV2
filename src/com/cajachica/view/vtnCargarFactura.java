@@ -5,11 +5,20 @@
  */
 package com.cajachica.view;
 
+import com.cajachica.dao.CargarfacturaDao;
+import com.cajachica.dao.MontosTotalesDao;
+import com.cajachica.dao.MovimientosCajaDao;
 import com.cajachica.dao.PresupuestoDao;
+import com.cajachica.pojos.Factura;
 import com.cajachica.pojos.Usuario;
+import java.awt.Color;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.Calendar;
+
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import util.Validaciones;
 
@@ -50,57 +59,46 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         userLogin = vtnLogin.user;
         //fin de la recuperacin del usuario logueado
 
-        //Instruciones para carga de datos de roles de usuario
-        // tipo de usuario 1= ADMINITRADOR DE SISTEMA
-        //                 2= USUARIO GENERAL
-        int tipoUsuario = userLogin.getTipoUsuario();
-        if (tipoUsuario == 2) 
-        {
-            cargarComboByRolUsuario(userLogin.getIdUsuario()); 
-        } 
-        else 
-        {
-            cargarCombo();
-        }
-
     }
 
     //Metodo que realiza la carga de los combos de los proyectos 
-    public void cargarComboByRolUsuario(int idUsuario)
-    {
-        try 
-        {
+    public void cargarComboByRolUsuario(int idUsuario) {
+        try {
             PresupuestoDao pdao = new PresupuestoDao();
             ResultSet consulta = pdao.listarRegPresupuestoByRol(idUsuario);
             comboProyectos.addItem("Seleccione un proyecto");
-            while (consulta.next()) 
-            {
+            while (consulta.next()) {
                 comboProyectos.addItem(consulta.getString("nombreProyecto"));
             }
-        } 
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar los proyectos " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     //Metodo que realiza la carga de los combos de los proyectos 
-    public void cargarCombo() 
-    {
-        try 
-        {
+    public void cargarCombo() {
+        try {
             PresupuestoDao pdao = new PresupuestoDao();
             ResultSet consulta = pdao.listarProyectos();
             comboProyectos.addItem("Seleccione un proyecto");
-            while (consulta.next())
-            {
+            while (consulta.next()) {
                 comboProyectos.addItem(consulta.getString("nombreProyecto"));
             }
-        } 
-        catch (Exception ex) 
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar los proyectos " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    //Metodo que realiza el limpiado de los campos de la ventana
+    public void limpiarCampos() {
+        comboProyectos.setSelectedIndex(0);
+        FechaFac.setCalendar(null);
+        txtNFactura.setText("0");
+        txtMonto.setText("0.0");
+        txtDesc.setText("");
+        listaCajaChica.setSelectedIndex(0);
+        listaTipoDoc.setSelectedIndex(0);
+        labelMonto.setText("--");
     }
 
     /**
@@ -116,7 +114,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        txtFFactura = new com.toedter.calendar.JDateChooser();
+        FechaFac = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtFcarga = new com.toedter.calendar.JDateChooser();
@@ -124,7 +122,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         txtNFactura = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        listaOpciones = new javax.swing.JComboBox<>();
+        listaCajaChica = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
@@ -134,8 +132,9 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        listaTipoDoc = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         comboProyectos = new javax.swing.JComboBox<>();
 
@@ -154,6 +153,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
             }
         });
 
@@ -211,7 +211,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel7.setText("Egresos:");
 
-        listaOpciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Transporte", "Servicios basicos", "Otros gastos" }));
+        listaCajaChica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Transporte", "Servicios basicos", "Otros gastos" }));
 
         jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel8.setText("Descripción:");
@@ -223,16 +223,27 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         txtMonto.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         txtMonto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtMonto.setText("0.0");
+        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMontoKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Trebuchet MS", 1, 13)); // NOI18N
         jLabel9.setText("PRESUPUESTO DISPINIBLE (BS.):");
 
+        labelMonto.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         labelMonto.setText("MONTO");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/guardar.png"))); // NOI18N
         jButton1.setText("Registrar factura");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/cancelar.png"))); // NOI18N
         jButton2.setText("Cancelar");
@@ -242,14 +253,24 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/modificar.png"))); // NOI18N
+        jButton3.setText("Limpiar campos");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(138, 138, 138)
+                .addGap(46, 46, 46)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
+                .addComponent(jButton3)
+                .addGap(27, 27, 27)
                 .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -259,17 +280,24 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
         jLabel10.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel10.setText("Tipo documento:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione documento", "Vale de caja", "Recibo", "S/D" }));
+        listaTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione documento", "Vale de caja", "Recibo", "S/D" }));
 
         jLabel11.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel11.setText("Seleccione Proyecto:");
+
+        comboProyectos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboProyectosItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -284,11 +312,11 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(listaOpciones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(listaCajaChica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(FechaFac, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -306,10 +334,10 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(txtFcarga, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(53, 53, 53)
                                 .addComponent(jLabel10)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, 0, 174, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(listaTipoDoc, 0, 203, Short.MAX_VALUE)))
+                        .addGap(59, 59, 59))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -342,7 +370,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FechaFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
@@ -352,9 +380,9 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(listaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(listaCajaChica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(listaTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtFcarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -411,12 +439,178 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void comboProyectosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboProyectosItemStateChanged
+        CargarfacturaDao facDao = new CargarfacturaDao();
+        Double total = 0.0;
+        try {
+            int idProyecto = facDao.recuperarIdByNombreProyecto(comboProyectos.getSelectedItem().toString());
+            total = Double.valueOf(facDao.recuperarMontoTotaByProyecto(idProyecto));
+            
+            if (total>0) 
+            {
+                if (total <= 20) {
+                    labelMonto.setText(total.toString());
+                    labelMonto.setForeground(Color.red);
+                } else if (total >= 50) {
+                    labelMonto.setText(total.toString());
+                    labelMonto.setForeground(Color.blue);
+                } else if (total >= 100) {
+                    labelMonto.setForeground(Color.green);
+                    labelMonto.setText(total.toString());
+                }
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "El proyecto seleccionado no tiene presupiuesto asignado..!!", null, JOptionPane.ERROR_MESSAGE);
+                labelMonto.setText("--");
+            }
+            //JOptionPane.showMessageDialog(null, "--->"+proyecto, null, JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(vtnCargarFactura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_comboProyectosItemStateChanged
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+
+        //Instruciones para carga de datos de roles de usuario
+        // tipo de usuario 1= ADMINITRADOR DE SISTEMA
+        //                 2= USUARIO GENERAL
+        int tipoUsuario = userLogin.getTipoUsuario();
+        if (tipoUsuario == 2) {
+            cargarComboByRolUsuario(userLogin.getIdUsuario());
+            txtFcarga.setEnabled(false);
+        } else {
+            cargarCombo();
+        }
+        labelMonto.setText("--");
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        //Validacion de los campos de formulario
+        if (comboProyectos.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un proyecto..!!", null, JOptionPane.ERROR_MESSAGE);
+            comboProyectos.requestFocusInWindow();
+            return;
+        }
+        //Campo fecha factura
+        if (FechaFac.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Seleccione la fecha de factura..!!", null, JOptionPane.ERROR_MESSAGE);
+            FechaFac.requestFocusInWindow();
+            return;
+        }
+        //Ingrese numero de factura
+        if (txtNFactura.getText().equals("0")) {
+            JOptionPane.showMessageDialog(null, "Ingrese el número de factura", null, JOptionPane.ERROR_MESSAGE);
+            txtNFactura.requestFocusInWindow();
+            return;
+        }
+        //Ingrese numero si es vacio
+        if (txtNFactura.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese el número de factura", null, JOptionPane.ERROR_MESSAGE);
+            txtNFactura.requestFocusInWindow();
+            return;
+        }
+
+        //Campo monto vacio
+        if (txtMonto.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese el monto de la factura..!!", null, JOptionPane.ERROR_MESSAGE);
+            txtMonto.requestFocusInWindow();
+            return;
+        }
+        //Campo monto factura
+        if (txtMonto.getText().equals("0.0") || txtMonto.getText().equals("0")) {
+            JOptionPane.showMessageDialog(null, "El monto de la factura no puede ser cero..!!", null, JOptionPane.ERROR_MESSAGE);
+            txtMonto.requestFocusInWindow();
+            return;
+        }
+
+        //Validacion de la lista lista tipo de documento
+        if (listaCajaChica.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un elemento de la lista EGRESOS", null, JOptionPane.ERROR_MESSAGE);
+            listaCajaChica.requestFocusInWindow();
+            return;
+        }
+
+        //Validacion de la lista de opciones de egreso
+        if (listaTipoDoc.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un elemento de la lista TIPO DE DOCUMENTO", null, JOptionPane.ERROR_MESSAGE);
+            listaTipoDoc.requestFocusInWindow();
+            return;
+        }
+
+        //Campo descripcion de la factura
+        if (txtDesc.getText().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese el detalle de la factura..!!", null, JOptionPane.ERROR_MESSAGE);
+            txtDesc.requestFocusInWindow();
+            return;
+        }
+        try {
+            //insercion a la base de datos
+            CargarfacturaDao cDao = new CargarfacturaDao();
+            int idProyecto = cDao.recuperarIdByNombreProyecto(comboProyectos.getSelectedItem().toString());
+            //Setenado los datos a al objeto factura
+            Factura factura = new Factura();
+            factura.setNroFactura(Integer.parseInt(txtNFactura.getText()));//numero de factura
+            factura.setTipoDoc(listaTipoDoc.getSelectedItem().toString());//tipo de docuemento
+            factura.setDetalleFactura(txtDesc.getText());//detalle afctura
+            factura.setMontoFactura(Float.valueOf(txtMonto.getText()));//monto factura
+            factura.setFecha(FechaFac.getDate());//fecha de factura
+            factura.setFechaCargaSistema(txtFcarga.getDate());//fecha de carga sistema
+            factura.setIdProyecto(idProyecto);//id proyecto
+            factura.setIdUsuario(userLogin.getIdUsuario());//id de usuario
+
+            //inicio del registro de la factura y actualizacion de los montos totales 
+            MontosTotalesDao mDao = new MontosTotalesDao();
+            ResultSet consulta = mDao.recuperarMontoIngreso(idProyecto);//recuperado el total de los ingresos
+            String montoI = null;
+            int idMonto = 0;//monto total de ingresos
+            if (consulta.next()) {
+                montoI = consulta.getString(1);
+                idMonto = consulta.getInt(2);
+            }
+
+            if (Double.parseDouble(montoI) > Double.parseDouble(txtMonto.getText())) {
+                if (cDao.cargarFactura(factura)) {
+                    double montoE = 0;
+                    montoE = Double.parseDouble(montoI) - Double.parseDouble(txtMonto.getText());
+                    mDao.updateIngresosTotales(String.valueOf(montoE), idProyecto, idMonto);
+                   // MovimientosCajaDao movDao = new MovimientosCajaDao();
+                    //movDao.registrarMontoIngreso(montoI, txtMonto.getText(), idProyecto);//registrando el movimiento en la BD
+                    JOptionPane.showMessageDialog(null, "Registro de factura exitoso", null, JOptionPane.INFORMATION_MESSAGE);
+                    limpiarCampos();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No tiene sufifientes fondos para registrar la factura..!!", null, JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error en la inserción de los datos..!!", null, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        limpiarCampos();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtMontoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(evt.getKeyChar()) && evt.getKeyChar() != '.') {
+            evt.consume();
+        }
+        if (evt.getKeyChar() == '.' && txtMonto.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMontoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser FechaFac;
     private javax.swing.JComboBox<String> comboProyectos;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -433,9 +627,9 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelMonto;
-    private javax.swing.JComboBox<String> listaOpciones;
+    private javax.swing.JComboBox<String> listaCajaChica;
+    private javax.swing.JComboBox<String> listaTipoDoc;
     private javax.swing.JTextArea txtDesc;
-    private com.toedter.calendar.JDateChooser txtFFactura;
     private com.toedter.calendar.JDateChooser txtFcarga;
     private javax.swing.JTextField txtMonto;
     private javax.swing.JTextField txtNFactura;

@@ -18,7 +18,8 @@ import javax.swing.JTextField;
  * @author Reynaldo
  */
 public class Validaciones {
-        public static boolean validarCampos(List<String> campos) {
+
+    public static boolean validarCampos(List<String> campos) {
         for (String nombre : campos) {
             if (nombre.equals("")) {
                 return false;
@@ -31,7 +32,7 @@ public class Validaciones {
     public static String formatoFecha(Date dateString) {
         Date date = null;
         String formatofecha = null;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             //date = df.parse(dateString);
             formatofecha = df.format(dateString);
@@ -52,12 +53,11 @@ public class Validaciones {
             }
         });
     }
-    
+
     //metodo que realiza la validacion de un JtextFiel de ingreso de texto
     public static void validaTexto(JTextField campo) {
         campo.addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e) 
-            {
+            public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if (Character.isDigit(c)) {
                     e.consume();
