@@ -5,6 +5,7 @@
  */
 package com.cajachica.dao;
 
+import com.cajachica.pojos.MovimientosCaja;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,22 +19,21 @@ import util.Conexion;
 public class MovimientosCajaDao 
 {
 
-    public boolean registrarMontoIngreso(String montoI, String montoE,int idProyecto) throws Exception {
+    public void registrarMontoIngreso(MovimientosCaja movCaja) throws Exception {
         Connection miConexion = (Connection) Conexion.getConectar();
-        try {
-            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO movimientos VALUES(?,?,?,?,?);");
+        try 
+        {
+            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO movimientos VALUES(?,?,?);");
             statement.setInt(1, 0);//id autoincrementable
-            statement.setString(2, montoI);//ingresos
-            statement.setString(3, montoE);//egresos
-            statement.setDate(4, new Date(idProyecto));
-            statement.setInt(5, idProyecto);//id proyecto
+            statement.setInt(2, movCaja.getIdPresupuesto());//ingresos
+            statement.setInt(3, movCaja.getIdFactura());//egresos
             statement.executeUpdate();
             statement.close();
             miConexion.close();
-            return true;
+          //  return true;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al registrar el movimiento" + ex.getMessage());
-            return false;
+            //return false;
         }
     }
 

@@ -439,11 +439,10 @@
         <Component class="javax.swing.JComboBox" name="listaTipoDoc">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
+              <StringArray count="3">
                 <StringItem index="0" value="Seleccione documento"/>
                 <StringItem index="1" value="Vale de caja"/>
                 <StringItem index="2" value="Recibo"/>
-                <StringItem index="3" value="S/D"/>
               </StringArray>
             </Property>
           </Properties>

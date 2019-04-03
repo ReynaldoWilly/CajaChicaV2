@@ -42,7 +42,8 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         userLogin = aUserLogin;
     }
 
-    public vtnCargarFactura() {
+    public vtnCargarFactura() 
+    {
         initComponents();
         validaVentana = "x";//insertando un valor a la variable que valida a la ventana
         /*Poniendo el JinternalFrame al centro de la ventana*/
@@ -288,7 +289,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         jLabel10.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel10.setText("Tipo documento:");
 
-        listaTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione documento", "Vale de caja", "Recibo", "S/D" }));
+        listaTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione documento", "Vale de caja", "Recibo" }));
 
         jLabel11.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel11.setText("Seleccione Proyecto:");
@@ -442,26 +443,29 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
     private void comboProyectosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboProyectosItemStateChanged
         CargarfacturaDao facDao = new CargarfacturaDao();
         Double total = 0.0;
-        try {
+        try 
+        {
             int idProyecto = facDao.recuperarIdByNombreProyecto(comboProyectos.getSelectedItem().toString());
             total = Double.valueOf(facDao.recuperarMontoTotaByProyecto(idProyecto));
-            
-            if (total>0) 
+            // JOptionPane.showMessageDialog(null, "----"+total, null, JOptionPane.ERROR_MESSAGE);
+               
+            if (total > 0) 
             {
-                if (total <= 20) {
+//                if (total <= 20 && total >=21) 
+//                {
+//                    labelMonto.setText(total.toString());
+//                    labelMonto.setForeground(Color.red);
+//                } else if (total >= 50) {
+//                    labelMonto.setText(total.toString());
+//                    labelMonto.setForeground(Color.blue);
+//                } else if (total >= 100) {
+                    labelMonto.setForeground(Color.BLUE);
                     labelMonto.setText(total.toString());
-                    labelMonto.setForeground(Color.red);
-                } else if (total >= 50) {
-                    labelMonto.setText(total.toString());
-                    labelMonto.setForeground(Color.blue);
-                } else if (total >= 100) {
-                    labelMonto.setForeground(Color.green);
-                    labelMonto.setText(total.toString());
-                }
+ //               }
             } 
             else 
             {
-                JOptionPane.showMessageDialog(null, "El proyecto seleccionado no tiene presupiuesto asignado..!!", null, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El proyecto seleccionado no tiene presupuesto asignado..!!", null, JOptionPane.ERROR_MESSAGE);
                 labelMonto.setText("--");
             }
             //JOptionPane.showMessageDialog(null, "--->"+proyecto, null, JOptionPane.ERROR_MESSAGE);

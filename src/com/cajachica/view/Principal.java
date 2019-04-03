@@ -72,6 +72,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu7 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -152,7 +153,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(sysMDILayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(916, Short.MAX_VALUE))
+                .addContainerGap(932, Short.MAX_VALUE))
         );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/file.png"))); // NOI18N
@@ -162,6 +163,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/usuarios.png"))); // NOI18N
         jMenu6.setText("Usuario");
 
+        itemvtnRegUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/addUser.png"))); // NOI18N
         itemvtnRegUsuario.setText("Registrar usuario");
         itemvtnRegUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +177,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/proyecto.png"))); // NOI18N
         jMenu5.setText("Proyecto");
 
+        itemvtnRegProyecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/Add-Folder-icon.png"))); // NOI18N
         itemvtnRegProyecto.setText("Registrar proyecto");
         itemvtnRegProyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,6 +186,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu5.add(itemvtnRegProyecto);
 
+        itemUsertoProyect.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/addUser.png"))); // NOI18N
         itemUsertoProyect.setText("Adicionar usuario a proyecto");
         itemUsertoProyect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,6 +196,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5.add(itemUsertoProyect);
         jMenu5.add(jSeparator1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/Money-icon.png"))); // NOI18N
         jMenuItem2.setText("Ingresar presupuesto ");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +210,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/caja.png"))); // NOI18N
         jMenu7.setText("Registro caja");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/factura.png"))); // NOI18N
         jMenuItem4.setText("Cargar factura");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,11 +223,22 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/reportes.png"))); // NOI18N
         jMenu8.setText("Reportes");
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/Notes.png"))); // NOI18N
+        jMenuItem5.setText("Factura");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem5);
+
         jMenuBar1.add(jMenu8);
 
-        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/ajustes.png"))); // NOI18N
+        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/configuracion.png"))); // NOI18N
         jMenu9.setText("Ajustes");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/Settings.png"))); // NOI18N
         jMenuItem1.setText("Configuración");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,7 +252,13 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/info.png"))); // NOI18N
         jMenu2.setText("Acerca de");
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/info.png"))); // NOI18N
         jMenuItem3.setText("Información");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
@@ -372,6 +395,46 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        String varValidacion = vtnInformacion.validaVentana;
+        if (varValidacion == null)
+        {
+            vtnInformacion pre = new vtnInformacion();
+            pre.setTitle("Información del sistema");
+            pre.setResizable(false);//no es redimencionable
+            pre.setMaximizable(false);//no se puede maximizar
+            pre.setClosable(true);//si se puede cerra la ventana
+            pre.setIconifiable(true);
+            sysMDI.add(pre);
+            pre.setVisible(true);
+        }
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "La ventana información ya esta activa\nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        String varValidacion = vtnReportes.validaVentana;
+        if (varValidacion == null) {
+
+            vtnReportes pro = new vtnReportes();
+            pro.setTitle("Reportes..::..::..");
+            pro.setResizable(false);//no es redimencionable
+            pro.setMaximizable(false);//no se puede maximizar
+            pro.setClosable(true);//si se puede cerra la ventana
+            pro.setIconifiable(true);
+            sysMDI.add(pro);
+            pro.setVisible(true);
+        } 
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "La ventana reporte factura ya esta activa\nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -429,6 +492,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel label;

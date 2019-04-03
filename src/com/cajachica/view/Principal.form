@@ -44,6 +44,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemvtnRegUsuario">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/addUser.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registrar usuario"/>
               </Properties>
               <Events>
@@ -62,6 +65,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemvtnRegProyecto">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/Add-Folder-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registrar proyecto"/>
               </Properties>
               <Events>
@@ -70,6 +76,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemUsertoProyect">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/addUser.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Adicionar usuario a proyecto"/>
               </Properties>
               <Events>
@@ -80,6 +89,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/Money-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Ingresar presupuesto "/>
               </Properties>
               <Events>
@@ -98,6 +110,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/factura.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cargar factura"/>
               </Properties>
               <Events>
@@ -113,17 +128,33 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Reportes"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/Notes.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Factura"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu9">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/cajachica/iconos/ajustes.png"/>
+              <Image iconType="3" name="/com/cajachica/iconos/configuracion.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Ajustes"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/Settings.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
               </Properties>
               <Events>
@@ -142,8 +173,14 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/cajachica/iconos/menu/info.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Informaci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -203,7 +240,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="916" max="32767" attributes="0"/>
+                  <EmptySpace pref="932" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

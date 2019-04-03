@@ -44,7 +44,7 @@ public class PresupuestoDao {
         return id;
     }
 
-    public boolean adicionarPresupuesto(String monto, int idProyecto, String financiador,String obs, int idUuario) throws Exception {
+    public boolean adicionarPresupuesto(String monto, int idProyecto, String financiador,String obs, String status,int idUuario) throws Exception {
         Connection miConexion = (Connection) Conexion.getConectar();
         //recuperando la fecha de registro
         Date fecha = new Date();
@@ -52,16 +52,16 @@ public class PresupuestoDao {
         //fin de la recuperacion de la fecha
         try 
         {
-            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO presupuesto VALUES(?,?,?,?,?,?,?);");
+            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO presupuesto VALUES(?,?,?,?,?,?,?,?);");
             statement.setInt(1, 0);//id autoincrementable
             statement.setString(2, monto);//monto
             statement.setDate(3, (java.sql.Date) sqldate);//id campo fecha
             statement.setInt(4, idProyecto);//id proyecto
             statement.setString(5, financiador);//nombre financiador
             statement.setString(6, obs);//observaciones
-            statement.setInt(7, idUuario);//id usuario responsable de reh¿gistro en sistema
+            statement.setString(7, status);
+            statement.setInt(8, idUuario);//id usuario responsable de reh¿gistro en sistema
             statement.executeUpdate();
-            
             statement.close();
             miConexion.close();
             return true;
@@ -74,9 +74,10 @@ public class PresupuestoDao {
     }
 
     //metodo que realiza el listado de los presupuestos registrados
-    public ResultSet listarRegPresupuesto() throws Exception {
+    public ResultSet listarRegPresupuesto() throws Exception 
+    {
         Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
-        String sql = "select P.idpresupuesto, P.monto, P.fechaReg, Pr.nombreProyecto,P.nombrefinanciador,U.nombre,U.apellido,P.observaciones \n"
+        String sql = "select P.idpresupuesto, P.monto, P.fechaReg, Pr.nombreProyecto,P.nombrefinanciador,U.nombre,U.apellido,P.observaciones,P.reembolso \n"
                 + "from presupuesto AS P, proyecto as Pr, usuario as U\n"
                 + "where Pr.idProyecto=P.idProyecto and U.idUsuario=P.idUsuario";//cadena para la consulta s
         Statement stm = con.createStatement();
@@ -88,7 +89,7 @@ public class PresupuestoDao {
     //metodo que realiza el listado de los presupuestos por nombre de presupuesto
     public ResultSet listPresupuestoByNombre(String nombreProyecto) throws Exception {
         Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
-        String sql = "Select P.idpresupuesto, P.monto, P.fechaReg, Pr.nombreProyecto,P.nombrefinanciador,U.nombre,U.apellido,P.observaciones \n"
+        String sql = "Select P.idpresupuesto, P.monto, P.fechaReg, Pr.nombreProyecto,P.nombrefinanciador,U.nombre,U.apellido,P.observaciones,P.reembolso \n"
                 + "from presupuesto AS P, proyecto as Pr, usuario as U\n"
                 + "where Pr.idProyecto=P.idProyecto and U.idUsuario=P.idUsuario and Pr.nombreProyecto=?";//cadena para la consulta s
         PreparedStatement stm = con.prepareStatement(sql);
@@ -122,4 +123,5 @@ public class PresupuestoDao {
         consulta.close();
         return id;
     }
+    
 }
