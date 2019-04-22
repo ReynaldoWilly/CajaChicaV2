@@ -10,6 +10,7 @@ import com.cajachica.dao.MontosTotalesDao;
 import com.cajachica.dao.MovimientosCajaDao;
 import com.cajachica.dao.PresupuestoDao;
 import com.cajachica.pojos.Factura;
+import com.cajachica.pojos.MovimientosCaja;
 import com.cajachica.pojos.Usuario;
 import java.awt.Color;
 import java.sql.Date;
@@ -42,8 +43,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         userLogin = aUserLogin;
     }
 
-    public vtnCargarFactura() 
-    {
+    public vtnCargarFactura() {
         initComponents();
         validaVentana = "x";//insertando un valor a la variable que valida a la ventana
         /*Poniendo el JinternalFrame al centro de la ventana*/
@@ -443,14 +443,12 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
     private void comboProyectosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboProyectosItemStateChanged
         CargarfacturaDao facDao = new CargarfacturaDao();
         Double total = 0.0;
-        try 
-        {
+        try {
             int idProyecto = facDao.recuperarIdByNombreProyecto(comboProyectos.getSelectedItem().toString());
             total = Double.valueOf(facDao.recuperarMontoTotaByProyecto(idProyecto));
             // JOptionPane.showMessageDialog(null, "----"+total, null, JOptionPane.ERROR_MESSAGE);
-               
-            if (total > 0) 
-            {
+
+            if (total > 0) {
 //                if (total <= 20 && total >=21) 
 //                {
 //                    labelMonto.setText(total.toString());
@@ -459,12 +457,10 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
 //                    labelMonto.setText(total.toString());
 //                    labelMonto.setForeground(Color.blue);
 //                } else if (total >= 100) {
-                    labelMonto.setForeground(Color.BLUE);
-                    labelMonto.setText(total.toString());
- //               }
-            } 
-            else 
-            {
+                labelMonto.setForeground(Color.BLUE);
+                labelMonto.setText(total.toString());
+                //               }
+            } else {
                 JOptionPane.showMessageDialog(null, "El proyecto seleccionado no tiene presupuesto asignado..!!", null, JOptionPane.ERROR_MESSAGE);
                 labelMonto.setText("--");
             }
@@ -580,8 +576,15 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                     double montoE = 0;
                     montoE = Double.parseDouble(montoI) - Double.parseDouble(txtMonto.getText());
                     mDao.updateIngresosTotales(String.valueOf(montoE), idProyecto, idMonto);
-                   // MovimientosCajaDao movDao = new MovimientosCajaDao();
-                    //movDao.registrarMontoIngreso(montoI, txtMonto.getText(), idProyecto);//registrando el movimiento en la BD
+
+                    //registro del movimientos
+                    MovimientosCajaDao movDao = new MovimientosCajaDao();
+                    MovimientosCaja m= new MovimientosCaja();
+                    m.setIdFactura(cDao.ultimoRegistroFactura());
+                    m.setIdProyecto(idProyecto);
+                    movDao.registrarMontoEngreso(m);
+                    //fin del registro del movimiento
+
                     JOptionPane.showMessageDialog(null, "Registro de factura exitoso", null, JOptionPane.INFORMATION_MESSAGE);
                     limpiarCampos();
                 }

@@ -660,6 +660,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                             MovimientosCajaDao m=new MovimientosCajaDao();
                             MovimientosCaja movDao=new MovimientosCaja();//movientos de la caja chica
                             movDao.setIdPresupuesto(pdao.ultimoRegistroPresupuesto());
+                            movDao.setIdProyecto(idProyecto);
                             m.registrarMontoIngreso(movDao);
                             //fin del registro del movimientos
                             
@@ -735,7 +736,8 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         //   JasperPrint jasperprint= JasperFillManager.fillReport(new File(".").getAbsolutePath()+"" , parameters)
         Connection conex = (Connection) Conexion.getConectar();
-        try {
+        try 
+        {
             if (tablaMontoProyecto.getSelectedRows().length != 0) {
                 DefaultTableModel tm = (DefaultTableModel) tablaMontoProyecto.getModel();
                 int idPresupuesto = Integer.parseInt(String.valueOf(tm.getValueAt(tablaMontoProyecto.getSelectedRow(), 0)));

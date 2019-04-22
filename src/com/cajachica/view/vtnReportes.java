@@ -268,7 +268,9 @@ public class vtnReportes extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try {
+        try 
+        {
+            
             DefaultTableModel modelo = (DefaultTableModel) this.tablaFactura.getModel();//creando el modelo de la tabla de los usuarios asignados
             Utilitarios util = new Utilitarios();
             util.limpiarTabla(tablaFactura);

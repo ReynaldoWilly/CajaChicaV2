@@ -7,11 +7,15 @@ package com.cajachica.dao;
 
 import com.cajachica.pojos.Proyecto;
 import com.cajachica.pojos.Usuario;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import util.Conexion;
 import util.HibernateUtil;
 
 /**
@@ -19,6 +23,7 @@ import util.HibernateUtil;
  * @author Reynaldo
  */
 public class ProyectoDao {
+
     Session sesion;
     Transaction tx;
 
@@ -49,6 +54,20 @@ public class ProyectoDao {
         return lista;
     }
 
+    //metodo que devuelve el ID del proyecto
+    public int buscarProyectoById(String proyecto) throws Exception {
+        Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
+        int id = 0;
+        String sql = "select idProyecto from proyecto where nombreProyecto=?";//cadena para la consulta s
+        PreparedStatement stm = con.prepareStatement(sql);
+        stm.setString(1, proyecto);
+        ResultSet consulta = stm.executeQuery();//ejecutando la consulta
+        if (consulta.next()) {
+            id = consulta.getInt("idProyecto");
+        }
+        return id;
+    }
+
     /*
     //Usuario= email
     public Usuario buscarUsuario(String usuario, String password) throws Exception
@@ -63,8 +82,7 @@ public class ProyectoDao {
         sesion.close();
         return  user;
     }
-    */
-    
+     */
     public boolean eliminarProyecto(Proyecto pro) throws Exception {
         iniciarOperacion();
         sesion.delete(pro);
@@ -72,8 +90,7 @@ public class ProyectoDao {
         sesion.close();
         return true;
     }
-     
-    
+
     public boolean actualizarProyecto(Proyecto pro) throws Exception {
         iniciarOperacion();
         sesion.update(pro);

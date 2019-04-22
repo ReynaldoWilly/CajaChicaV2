@@ -14,6 +14,7 @@ public class MovimientosCaja {
     private int idMovimientos;
     private int idPresupuesto;
     private int idFactura;
+    private int idProyecto;
 
     public MovimientosCaja() {
     }
@@ -44,6 +45,14 @@ public class MovimientosCaja {
 
     public void setIdFactura(int idFactura) {
         this.idFactura = idFactura;
+    }
+
+    public int getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
 }

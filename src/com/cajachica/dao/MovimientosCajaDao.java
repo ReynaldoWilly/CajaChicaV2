@@ -23,10 +23,30 @@ public class MovimientosCajaDao
         Connection miConexion = (Connection) Conexion.getConectar();
         try 
         {
-            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO movimientos VALUES(?,?,?);");
+            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO movimientos VALUES(?,?,?,?);");
             statement.setInt(1, 0);//id autoincrementable
             statement.setInt(2, movCaja.getIdPresupuesto());//ingresos
             statement.setInt(3, movCaja.getIdFactura());//egresos
+            statement.setInt(4, movCaja.getIdProyecto());
+            statement.executeUpdate();
+            statement.close();
+            miConexion.close();
+          //  return true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al registrar el movimiento" + ex.getMessage());
+            //return false;
+        }
+    }
+    //Cargar factura
+    public void registrarMontoEngreso(MovimientosCaja movCaja) throws Exception {
+        Connection miConexion = (Connection) Conexion.getConectar();
+        try 
+        {
+            PreparedStatement statement = miConexion.prepareStatement("INSERT INTO movimientos VALUES(?,?,?,?);");
+            statement.setInt(1, 0);//id autoincrementable
+            statement.setInt(2, movCaja.getIdPresupuesto());//ingresos
+            statement.setInt(3, movCaja.getIdFactura());//egresos
+            statement.setInt(4,movCaja.getIdProyecto() );
             statement.executeUpdate();
             statement.close();
             miConexion.close();

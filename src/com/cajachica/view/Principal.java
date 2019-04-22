@@ -69,8 +69,10 @@ public class Principal extends javax.swing.JFrame {
         itemUsertoProyect = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
@@ -205,6 +207,15 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem2);
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/devolver.png"))); // NOI18N
+        jMenuItem7.setText("Estado ingreso presupuesto");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
         jMenuBar1.add(jMenu5);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/caja.png"))); // NOI18N
@@ -218,6 +229,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu7.add(jMenuItem4);
+
+        jMenuItem6.setText("jMenuItem6");
+        jMenu7.add(jMenuItem6);
 
         jMenuBar1.add(jMenu7);
 
@@ -435,6 +449,26 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    // TODO add your handling code here:
+     String varValidacion = vtnReembolsos.validaVentana;
+        if (varValidacion == null) {
+
+            vtnReembolsos pre = new vtnReembolsos();
+            pre.setTitle("Reembolsos");
+            pre.setResizable(false);//no es redimencionable
+            pre.setMaximizable(false);//no se puede maximizar
+            pre.setClosable(true);//si se puede cerra la ventana
+            pre.setIconifiable(true);
+            sysMDI.add(pre);
+            pre.setVisible(true);
+        } 
+        else 
+        {
+            JOptionPane.showMessageDialog(this, "La ventana reembosos ya esta activa\nya esa activa..!!", "Mensaje..", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -493,6 +527,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel label;
