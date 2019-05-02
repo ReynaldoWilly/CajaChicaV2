@@ -7,6 +7,7 @@ package com.cajachica.view;
 
 import com.cajachica.core.Utilitarios;
 import com.cajachica.dao.PresupuestoDao;
+import com.cajachica.dao.ProyectoDao;
 import com.cajachica.dao.ReportesDao;
 import com.cajachica.pojos.Usuario;
 import static com.cajachica.view.vtnPresupuesto.userLogin;
@@ -53,6 +54,7 @@ public class vtnReportes extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -62,13 +64,16 @@ public class vtnReportes extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         comboProyecto = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaFactura = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/print.png"))); // NOI18N
+        jButton2.setText("Imprimir");
 
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -130,14 +135,15 @@ public class vtnReportes extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel5.setText("SELECCIONE UN RANGO DE FECHA");
 
-        jButton1.setText("Generar reporte");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel6.setText("Proyecto:");
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/buscar.png"))); // NOI18N
+        jButton3.setText("Gerenar reporte");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
-
-        jLabel6.setText("Proyecto:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -157,42 +163,48 @@ public class vtnReportes extends javax.swing.JInternalFrame {
                         .addComponent(fechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)))
-                .addContainerGap(311, Short.MAX_VALUE))
+                        .addComponent(comboProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
+                .addContainerGap(347, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(fechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(fechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jLabel6)
-                        .addComponent(comboProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(comboProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(fechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jButton3))))
+                .addGap(27, 27, 27))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jScrollPane1.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
 
         tablaFactura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "#FACTURA", "DOCUMENTO", "DETALLE", "MONTO", "FECHA", "F.CARGA", "PROYECTO", "NOMBRE", "APELLIDO"
+                "ID", "FECHA", "INGRESO", "EGRESO", "SALDO", "#DOC", "DESCRIPCION", "NOMBRE", "APELLIDO"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -203,17 +215,33 @@ public class vtnReportes extends javax.swing.JInternalFrame {
         if (tablaFactura.getColumnModel().getColumnCount() > 0) {
             tablaFactura.getColumnModel().getColumn(0).setMinWidth(50);
             tablaFactura.getColumnModel().getColumn(0).setMaxWidth(50);
-            tablaFactura.getColumnModel().getColumn(1).setMinWidth(80);
-            tablaFactura.getColumnModel().getColumn(1).setPreferredWidth(80);
-            tablaFactura.getColumnModel().getColumn(1).setMaxWidth(80);
-            tablaFactura.getColumnModel().getColumn(3).setMinWidth(400);
-            tablaFactura.getColumnModel().getColumn(3).setPreferredWidth(400);
+            tablaFactura.getColumnModel().getColumn(1).setMinWidth(100);
+            tablaFactura.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tablaFactura.getColumnModel().getColumn(1).setMaxWidth(100);
+            tablaFactura.getColumnModel().getColumn(2).setMinWidth(100);
+            tablaFactura.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tablaFactura.getColumnModel().getColumn(2).setMaxWidth(100);
+            tablaFactura.getColumnModel().getColumn(3).setMinWidth(100);
+            tablaFactura.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tablaFactura.getColumnModel().getColumn(3).setMaxWidth(100);
             tablaFactura.getColumnModel().getColumn(4).setMinWidth(70);
             tablaFactura.getColumnModel().getColumn(4).setPreferredWidth(70);
             tablaFactura.getColumnModel().getColumn(4).setMaxWidth(70);
+            tablaFactura.getColumnModel().getColumn(5).setMinWidth(90);
+            tablaFactura.getColumnModel().getColumn(5).setPreferredWidth(90);
+            tablaFactura.getColumnModel().getColumn(5).setMaxWidth(90);
+            tablaFactura.getColumnModel().getColumn(6).setMinWidth(400);
+            tablaFactura.getColumnModel().getColumn(6).setPreferredWidth(400);
+            tablaFactura.getColumnModel().getColumn(6).setMaxWidth(400);
         }
 
-        jButton2.setText("Imprimir");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/buscar.png"))); // NOI18N
+        jButton1.setText("Reporte general");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -222,15 +250,15 @@ public class vtnReportes extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addContainerGap())
+                .addComponent(jButton1)
+                .addGap(136, 136, 136))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -254,7 +282,7 @@ public class vtnReportes extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -268,33 +296,81 @@ public class vtnReportes extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try 
-        {
-            
+        try {
             DefaultTableModel modelo = (DefaultTableModel) this.tablaFactura.getModel();//creando el modelo de la tabla de los usuarios asignados
             Utilitarios util = new Utilitarios();
             util.limpiarTabla(tablaFactura);
             //realizando la consulta para realizar el listado de los datos
             ReportesDao rDao = new ReportesDao();
+            ProyectoDao pdao = new ProyectoDao();
 
-            java.sql.Date desde = new java.sql.Date(fechaDesde.getDate().getTime()); //your SQL date object
-            java.sql.Date hasta = new java.sql.Date(fechaHasta.getDate().getTime()); //your SQL date object
+            //  java.sql.Date desde = new java.sql.Date(fechaDesde.getDate().getTime()); //your SQL date object
+            //java.sql.Date hasta = new java.sql.Date(fechaHasta.getDate().getTime()); //your SQL date object
+            if (comboProyecto.getSelectedIndex() != 0) {
 
-            ResultSet lista = rDao.facturaFecha(desde, hasta);//recuperando el listado de los usuarios asignados a los proyectos
+                if (fechaDesde.getDate() == null && fechaHasta.getDate() == null) {
+                    ResultSet lista = rDao.movimientosFactura(pdao.buscarProyectoById(comboProyecto.getSelectedItem().toString()));//recuperando el listado de los usuarios asignados a los proyectos
 
-            //rellenando los elementos de la consulta en el Jtable
-            Object[] fila = new Object[10];
-            while (lista.next()) {
-                for (int i = 0; i < 10; i++) {
-                    fila[i] = lista.getObject(i + 1);
+                    //rellenando los elementos de la consulta en el Jtable
+                    Object[] fila = new Object[9];
+                    while (lista.next()) {
+                        for (int i = 0; i < 9; i++) {
+                            fila[i] = lista.getObject(i + 1);
+                        }
+                        modelo.addRow(fila);
+                    }
                 }
-                modelo.addRow(fila);
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Seleccione un proyecto..!!", null, JOptionPane.WARNING_MESSAGE);
+            }
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null, "Error al listar los datos..!! " + e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) this.tablaFactura.getModel();//creando el modelo de la tabla de los usuarios asignados
+            Utilitarios util = new Utilitarios();
+            util.limpiarTabla(tablaFactura);
+            //realizando la consulta para realizar el listado de los datos
+            ReportesDao rDao = new ReportesDao();
+            ProyectoDao pdao = new ProyectoDao();
+
+            //  java.sql.Date desde = new java.sql.Date(fechaDesde.getDate().getTime()); //your SQL date object
+            //java.sql.Date hasta = new java.sql.Date(fechaHasta.getDate().getTime()); //your SQL date object
+            if (comboProyecto.getSelectedIndex() != 0) {
+
+                if (fechaDesde.getDate() != null && fechaHasta.getDate() != null) 
+                {
+                    ResultSet lista = rDao.movimientosFactura(pdao.buscarProyectoById(comboProyecto.getSelectedItem().toString()));//recuperando el listado de los usuarios asignados a los proyectos
+
+                    //rellenando los elementos de la consulta en el Jtable
+                    Object[] fila = new Object[9];
+                    while (lista.next()) {
+                        for (int i = 0; i < 9; i++) {
+                            fila[i] = lista.getObject(i + 1);
+                        }
+                        modelo.addRow(fila);
+                    }
+                } 
+                else 
+                {
+                    JOptionPane.showMessageDialog(null, "Seleccione fechas para realizar la consulta..!!", null, JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione un proyecto..!!", null, JOptionPane.WARNING_MESSAGE);
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al listar los datos..!! " + e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     //Metodo que realiza la carga de los combos de los proyectos 
     public void cargarComboByRolUsuario(int idUsuario) {
@@ -330,6 +406,7 @@ public class vtnReportes extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser fechaHasta;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

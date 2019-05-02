@@ -54,12 +54,13 @@ public class Principal extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         sysMDI = new javax.swing.JDesktopPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        panelRound1 = new org.edisoncor.gui.panel.PanelRound();
         jLabel2 = new javax.swing.JLabel();
-        LabelUsuario = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         label = new javax.swing.JLabel();
+        LabelUsuario = new javax.swing.JLabel();
         labelCargo = new javax.swing.JLabel();
+        clockDigital1 = new org.edisoncor.gui.varios.ClockDigital();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
@@ -75,6 +76,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -88,74 +90,84 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel1.setText("Usuario:");
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/images/logueado.png"))); // NOI18N
 
-        LabelUsuario.setFont(new java.awt.Font("Trebuchet MS", 2, 14)); // NOI18N
-        LabelUsuario.setText("jLabel3");
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Usuario:");
 
         label.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        label.setForeground(new java.awt.Color(255, 255, 255));
         label.setText("Cargo:");
 
+        LabelUsuario.setFont(new java.awt.Font("Trebuchet MS", 2, 14)); // NOI18N
+        LabelUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        LabelUsuario.setText("jLabel3");
+
         labelCargo.setFont(new java.awt.Font("Trebuchet MS", 2, 14)); // NOI18N
+        labelCargo.setForeground(new java.awt.Color(255, 255, 255));
         labelCargo.setText("jLabel3");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+        clockDigital1.setForeground(new java.awt.Color(204, 0, 0));
+        clockDigital1.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 15)); // NOI18N
+
+        javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
+        panelRound1.setLayout(panelRound1Layout);
+        panelRound1Layout.setHorizontalGroup(
+            panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound1Layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+            .addGroup(panelRound1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(31, 31, 31)
-                        .addComponent(LabelUsuario))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelCargo)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(label))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LabelUsuario)
+                    .addComponent(labelCargo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        panelRound1Layout.setVerticalGroup(
+            panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRound1Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRound1Layout.createSequentialGroup()
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(LabelUsuario))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(label)
                             .addComponent(labelCargo)))
-                    .addComponent(jLabel2)
-                    .addComponent(LabelUsuario))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(clockDigital1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        sysMDI.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        sysMDI.setLayer(panelRound1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout sysMDILayout = new javax.swing.GroupLayout(sysMDI);
         sysMDI.setLayout(sysMDILayout);
         sysMDILayout.setHorizontalGroup(
             sysMDILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sysMDILayout.createSequentialGroup()
-                .addContainerGap(1806, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1667, Short.MAX_VALUE)
+                .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         sysMDILayout.setVerticalGroup(
             sysMDILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sysMDILayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(932, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1057, Short.MAX_VALUE))
         );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/file.png"))); // NOI18N
@@ -199,7 +211,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5.add(jSeparator1);
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/Money-icon.png"))); // NOI18N
-        jMenuItem2.setText("Ingresar presupuesto ");
+        jMenuItem2.setText("Ingreso caja");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -239,13 +251,16 @@ public class Principal extends javax.swing.JFrame {
         jMenu8.setText("Reportes");
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cajachica/iconos/menu/Notes.png"))); // NOI18N
-        jMenuItem5.setText("Factura");
+        jMenuItem5.setText("Facturas");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
             }
         });
         jMenu8.add(jMenuItem5);
+
+        jMenuItem8.setText("Pagos ");
+        jMenu8.add(jMenuItem8);
 
         jMenuBar1.add(jMenu8);
 
@@ -435,7 +450,7 @@ public class Principal extends javax.swing.JFrame {
         if (varValidacion == null) {
 
             vtnReportes pro = new vtnReportes();
-            pro.setTitle("Reportes..::..::..");
+            pro.setTitle("Reporte Facturas..!!");
             pro.setResizable(false);//no es redimencionable
             pro.setMaximizable(false);//no se puede maximizar
             pro.setClosable(true);//si se puede cerra la ventana
@@ -506,6 +521,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelUsuario;
+    private org.edisoncor.gui.varios.ClockDigital clockDigital1;
     private javax.swing.JMenuItem itemUsertoProyect;
     private javax.swing.JMenuItem itemvtnRegProyecto;
     private javax.swing.JMenuItem itemvtnRegUsuario;
@@ -529,10 +545,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel label;
     private javax.swing.JLabel labelCargo;
+    private org.edisoncor.gui.panel.PanelRound panelRound1;
     public static javax.swing.JDesktopPane sysMDI;
     private org.edisoncor.gui.tabbedPane.TabbedPaneRound tabbedPaneRound1;
     // End of variables declaration//GEN-END:variables

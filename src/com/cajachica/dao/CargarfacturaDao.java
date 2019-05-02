@@ -85,16 +85,16 @@ public class CargarfacturaDao {
         }
     }
     //Consulta que realiza la consulta para el rol de ususario del sistema 
-    public int ultimoRegistroFactura() throws Exception {
+    public String ultimoRegistroFactura() throws Exception {
         Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
-        String sql = "Select max(idFactura) from factura;";
+        String sql = "Select montoFActura from factura where idFActura=(select max(idFactura) from factura)";
         PreparedStatement stm = con.prepareStatement(sql);
         ResultSet consulta = stm.executeQuery();
         //si hay resuktados enviarlos
-        int id=0;
+        String id="0";
         if(consulta.next())
         {
-            id=consulta.getInt(1);
+            id=consulta.getString(1);
         }
         consulta.close();
         return id;

@@ -102,7 +102,8 @@ public class historialPagosDao {
         return id;
     }
      //metodo que realiza la insercion del historial de pago
-    public boolean adicionarItemsPresupuesto(int idPresupuesto, int idPago) throws Exception {
+    public boolean adicionarItemsPresupuesto(int idPresupuesto, int idPago) throws Exception 
+    {
         Connection miConexion = (Connection) Conexion.getConectar();
         //recuperando la fecha de registro
         //fin de la recuperacion de la fecha

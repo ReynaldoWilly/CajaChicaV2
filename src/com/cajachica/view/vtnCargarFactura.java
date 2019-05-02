@@ -99,7 +99,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         txtDesc.setText("");
         listaCajaChica.setSelectedIndex(0);
         listaTipoDoc.setSelectedIndex(0);
-        labelMonto.setText("--");
+        labelMonto.setText("0");
     }
 
     /**
@@ -289,7 +289,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         jLabel10.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel10.setText("Tipo documento:");
 
-        listaTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione documento", "Vale de caja", "Recibo" }));
+        listaTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione documento", "Vale de caja" }));
 
         jLabel11.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel11.setText("Seleccione Proyecto:");
@@ -462,7 +462,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                 //               }
             } else {
                 JOptionPane.showMessageDialog(null, "El proyecto seleccionado no tiene presupuesto asignado..!!", null, JOptionPane.ERROR_MESSAGE);
-                labelMonto.setText("--");
+                labelMonto.setText("0");
             }
             //JOptionPane.showMessageDialog(null, "--->"+proyecto, null, JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
@@ -483,7 +483,7 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
         } else {
             cargarCombo();
         }
-        labelMonto.setText("--");
+        labelMonto.setText("0");
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -546,7 +546,8 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
             txtDesc.requestFocusInWindow();
             return;
         }
-        try {
+        try
+        {
             //insercion a la base de datos
             CargarfacturaDao cDao = new CargarfacturaDao();
             int idProyecto = cDao.recuperarIdByNombreProyecto(comboProyectos.getSelectedItem().toString());
@@ -571,8 +572,10 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                 idMonto = consulta.getInt(2);
             }
 
-            if (Double.parseDouble(montoI) > Double.parseDouble(txtMonto.getText())) {
-                if (cDao.cargarFactura(factura)) {
+            if (Double.parseDouble(montoI) > Double.parseDouble(txtMonto.getText())) 
+            {
+                if (cDao.cargarFactura(factura))
+                {
                     double montoE = 0;
                     montoE = Double.parseDouble(montoI) - Double.parseDouble(txtMonto.getText());
                     mDao.updateIngresosTotales(String.valueOf(montoE), idProyecto, idMonto);
@@ -580,15 +583,22 @@ public class vtnCargarFactura extends javax.swing.JInternalFrame {
                     //registro del movimientos
                     MovimientosCajaDao movDao = new MovimientosCajaDao();
                     MovimientosCaja m= new MovimientosCaja();
-                    m.setIdFactura(cDao.ultimoRegistroFactura());
+                    m.setIngreso("0");
+                    m.setEgreso(cDao.ultimoRegistroFactura());
+                    m.setSaldo(String.valueOf(montoE));
+                    m.setGlosa(txtDesc.getText());
                     m.setIdProyecto(idProyecto);
+                    m.setNroDocumento(Integer.parseInt(txtNFactura.getText()));
+                    m.setIdUsuario(userLogin.getIdUsuario());
                     movDao.registrarMontoEngreso(m);
                     //fin del registro del movimiento
 
                     JOptionPane.showMessageDialog(null, "Registro de factura exitoso", null, JOptionPane.INFORMATION_MESSAGE);
                     limpiarCampos();
                 }
-            } else {
+            } 
+            else 
+            {
                 JOptionPane.showMessageDialog(null, "No tiene sufifientes fondos para registrar la factura..!!", null, JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {

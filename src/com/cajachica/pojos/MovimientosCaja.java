@@ -12,15 +12,15 @@ package com.cajachica.pojos;
 public class MovimientosCaja {
 
     private int idMovimientos;
-    private int idPresupuesto;
-    private int idFactura;
+    private String ingreso;
+    private String egreso;
+    private String saldo;
     private int idProyecto;
+    private String glosa;
+    private int nroDocumento;
+    private int idUsuario;
 
     public MovimientosCaja() {
-    }
-
-    public MovimientosCaja(int idPresupuesto) {
-        this.idPresupuesto = idPresupuesto;
     }
 
     public int getIdMovimientos() {
@@ -31,22 +31,31 @@ public class MovimientosCaja {
         this.idMovimientos = idMovimientos;
     }
 
-    public int getIdPresupuesto() {
-        return idPresupuesto;
+    public String getIngreso() {
+        return ingreso;
     }
 
-    public void setIdPresupuesto(int idPresupuesto) {
-        this.idPresupuesto = idPresupuesto;
+    public int getNroDocumento() {
+        return nroDocumento;
     }
 
-    public int getIdFactura() {
-        return idFactura;
+    public void setNroDocumento(int nroDocumento) {
+        this.nroDocumento = nroDocumento;
     }
 
-    public void setIdFactura(int idFactura) {
-        this.idFactura = idFactura;
+    public void setIngreso(String ingreso) {
+        this.ingreso = ingreso;
     }
 
+    public String getEgreso() {
+        return egreso;
+    }
+
+    public void setEgreso(String egreso) {
+        this.egreso = egreso;
+    }
+
+  
     public int getIdProyecto() {
         return idProyecto;
     }
@@ -55,4 +64,27 @@ public class MovimientosCaja {
         this.idProyecto = idProyecto;
     }
 
+    public String getGlosa() {
+        return glosa;
+    }
+
+    public void setGlosa(String glosa) {
+        this.glosa = glosa;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(String saldo) {
+        this.saldo = saldo;
+    }
 }

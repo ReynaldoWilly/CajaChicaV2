@@ -21,15 +21,26 @@ import util.Conexion;
 public class ReportesDao {
 
     //metodo que realiza el listado de los usuarios asignados a los proyectos
-    public ResultSet facturaFecha(Date desde, Date hasta) throws Exception 
-    {
+    public ResultSet movimientosFactura(int idProyecto) throws Exception {
         Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
-        String sql = "Select  distinct (F.idFactura), F.nroFactura,F.tipoDoc,F.detalleFActura,F.montoFactura,F.fecha,F.FechaCargaSistema,P.nombreProyecto, U.nombre,U.apellido\n"
-                + "from factura as F, usuario as U, proyecto as P\n"
-                + "where F.idproyecto=P.idProyecto and U.idUsuario=F.idUsuario and F.fecha between ? and ?";//cadena para la consulta s
+        String sql = "select m.idMovimientos, m.fecha,m.ingreso,m.egreso,m.saldo,m.nroDocumento,m.glosa,u.nombre,u.apellido\n"
+                + "from movimientos as m, usuario as u, proyecto as pr\n"
+                + "where m.idUsuario=u.idUsuario and m.idProyecto=pr.idProyecto and m.idProyecto=?";//cadena para la consulta s
         PreparedStatement stm = con.prepareStatement(sql);
-        stm.setDate(1, (java.sql.Date) desde);
-        stm.setDate(2, (java.sql.Date) hasta);
+        stm.setInt(1, idProyecto);
+        ResultSet consulta = stm.executeQuery();//ejecutando la consulta
+        return consulta;
+    }
+    
+    public ResultSet movimientosFacturaByFecha(int idProyecto, Date desde, Date hasta) throws Exception {
+        Connection con = Conexion.getConectar();//creando una instancia de la clase conexion
+        String sql = "select m.idMovimientos, m.fecha,m.ingreso,m.egreso,m.saldo,m.nroDocumento,m.glosa,u.nombre,u.apellido\n"
+                + "from movimientos as m, usuario as u, proyecto as pr\n"
+                + "where m.idUsuario=u.idUsuario and m.idProyecto=pr.idProyecto and m.idProyecto=? and m.fecha between ? and ?";//cadena para la consulta s
+        PreparedStatement stm = con.prepareStatement(sql);
+        stm.setInt(1, idProyecto);
+        stm.setDate(2, (java.sql.Date) desde);
+        stm.setDate(3, (java.sql.Date) hasta);
         ResultSet consulta = stm.executeQuery();//ejecutando la consulta
         return consulta;
     }

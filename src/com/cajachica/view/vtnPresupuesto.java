@@ -173,7 +173,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         //JOptionPane.showMessageDialog(null, "--->" + new PresupuestoDao().ultimoRegistroPresupuesto(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
 
         try {
-            int idPresupuesto = new PresupuestoDao().ultimoRegistroPresupuesto();
+            String idPresupuesto = new PresupuestoDao().ultimoRegistroPresupuesto();
 
             Map parametro = new HashMap();
             parametro.put("IdPresupuesto", idPresupuesto);//parametro numero de compra
@@ -181,7 +181,6 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
             JasperPrint jasperprint = JasperFillManager.fillReport(new File(".").getAbsolutePath() + "/src/com/cajachica/reportes/ReciboCajaChica.jasper", parametro, conex);
             JasperViewer jasperviewer = new JasperViewer(jasperprint, false);
             jasperviewer.setVisible(true);
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al abrir el reporte Reembolso de caja chica" + ex.getMessage(), "Reporte compras", JOptionPane.ERROR_MESSAGE);
         }
@@ -393,10 +392,10 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                     .addComponent(comboproyectotabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pestañaModificaciones.addTab("Historial ", jPanel3);
@@ -575,7 +574,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pestañaModificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                        .addComponent(pestañaModificaciones))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -635,8 +634,8 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       String montoA=null;
-       int idMonto=0;
+        String montoA = null;
+        int idMonto = 0;
         try {
             if (comboProyecto.getSelectedIndex() > 0) {
                 PresupuestoDao pdao = new PresupuestoDao();
@@ -644,51 +643,69 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
                 int idProyecto = pdao.recuperarIdByNombre(String.valueOf(comboProyecto.getSelectedItem()));
                 Double monto = Double.parseDouble(txtMonto.getText());
                 String status;//variable que contiene el status del reembolso
-                if(OpSi.isSelected()){
-                    status="Devolver";
+                if (OpSi.isSelected()) {
+                    status = "Devolver";
+                } else {
+                    status = "--";
                 }
-                else 
-                {
-                    status="--";
-                }
-                
+
                 if (monto > 0) {
                     if (txtFinanciador.getText().length() > 0) {
-                        if (pdao.adicionarPresupuesto(txtMonto.getText(), idProyecto, txtFinanciador.getText(), txtObs.getText(), status,userLogin.getIdUsuario()));
+                        if (pdao.adicionarPresupuesto(txtMonto.getText(), idProyecto, txtFinanciador.getText(), txtObs.getText(), status, userLogin.getIdUsuario()));
                         {
-                            ///registrando el movimiento
-                            MovimientosCajaDao m=new MovimientosCajaDao();
-                            MovimientosCaja movDao=new MovimientosCaja();//movientos de la caja chica
-                            movDao.setIdPresupuesto(pdao.ultimoRegistroPresupuesto());
-                            movDao.setIdProyecto(idProyecto);
-                            m.registrarMontoIngreso(movDao);
-                            //fin del registro del movimientos
-                            
+
                             JOptionPane.showMessageDialog(null, " Monto registrado correctamente..!!", null, JOptionPane.INFORMATION_MESSAGE);
 
                             if (mdao.verTablaVacia(idProyecto)) {
-                                mdao.registrarMontoIngreso(txtMonto.getText(), idProyecto);//relizando la aactualizacion de los montos totales de ingresos 
-                            } 
-                            else 
-                            {
+                                mdao.registrarMontoIngreso(txtMonto.getText(), idProyecto);//relizando la aactualizacion de los montos totales de ingresos
+
+                                //registrando el movimiento
+                                MovimientosCajaDao m = new MovimientosCajaDao();
+                                MovimientosCaja movDao = new MovimientosCaja();//movientos de la caja chica
+                                movDao.setIngreso(pdao.ultimoRegistroPresupuesto());//recuperando del ultimo registro el monto de ingreso
+                                movDao.setEgreso("0");//egreso en cero 
+                                movDao.setSaldo(txtMonto.getText());
+                                movDao.setGlosa(txtObs.getText());//descripcion del presupuesto
+                                movDao.setNroDocumento(pdao.ultimoRegistroPresupuestoID());
+                                movDao.setIdProyecto(idProyecto);
+                                movDao.setIdUsuario(userLogin.getIdUsuario());
+
+                                m.registrarIngresoMovimiento(movDao);
+                                //fin del registro del movimientos
+
+                            } else {
                                 double montoS = Double.parseDouble(txtMonto.getText());//recuperando el nuevo monto a sumar 
-                                ResultSet consulta=mdao.recuperarMontoIngreso(idProyecto);
-                                if (consulta.next()) 
-                                {
+                                ResultSet consulta = mdao.recuperarMontoIngreso(idProyecto);
+                                if (consulta.next()) {
                                     montoA = consulta.getString(1);
                                     idMonto = consulta.getInt(2);
                                 }
-                                
-                                double totalUpdate=Double.parseDouble(montoA)+montoS;
-                                mdao.updateIngresosTotales(String.valueOf(totalUpdate), idProyecto,idMonto);
+
+                                double totalUpdate = Double.parseDouble(montoA) + montoS;
+                                mdao.updateIngresosTotales(String.valueOf(totalUpdate), idProyecto, idMonto);
                                 //JOptionPane.showMessageDialog(null, "Segundo ingreso MONTO RECUPERADO-->"+totalUpdate+"--"+montoA+"--"+idMonto, null, JOptionPane.ERROR_MESSAGE);
+
+                                //registrando el movimiento
+                                MovimientosCajaDao m = new MovimientosCajaDao();
+                                MovimientosCaja movDao = new MovimientosCaja();//movientos de la caja chica
+                                movDao.setIngreso(pdao.ultimoRegistroPresupuesto());//recuperando del ultimo registro el monto de ingreso
+                                movDao.setEgreso("0");//egreso en cero 
+                                movDao.setSaldo(String.valueOf(totalUpdate));
+                                movDao.setGlosa(txtObs.getText());//descripcion del presupuesto
+                                movDao.setNroDocumento(pdao.ultimoRegistroPresupuestoID());
+                                movDao.setIdProyecto(idProyecto);
+                                movDao.setIdUsuario(userLogin.getIdUsuario());
+
+                                m.registrarIngresoMovimiento(movDao);
+                                //fin del registro del movimientos
+
                             }
                             txtMonto.setText("0.0");
                             txtFinanciador.setText("");
                             txtObs.setText("");
                             comboProyecto.setSelectedIndex(0);
                             listarPresupuestos();
-                            levantarReporte();
+                            //levantarReporte();
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, " Ingrese el financiador..!!", null, JOptionPane.ERROR_MESSAGE);
@@ -736,8 +753,7 @@ public class vtnPresupuesto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         //   JasperPrint jasperprint= JasperFillManager.fillReport(new File(".").getAbsolutePath()+"" , parameters)
         Connection conex = (Connection) Conexion.getConectar();
-        try 
-        {
+        try {
             if (tablaMontoProyecto.getSelectedRows().length != 0) {
                 DefaultTableModel tm = (DefaultTableModel) tablaMontoProyecto.getModel();
                 int idPresupuesto = Integer.parseInt(String.valueOf(tm.getValueAt(tablaMontoProyecto.getSelectedRow(), 0)));
